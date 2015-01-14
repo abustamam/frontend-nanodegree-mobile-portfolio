@@ -23,9 +23,37 @@ module.exports = function(grunt) {
             'head-script-disabled': true,
             'style-disabled': true
         },
-        src: ['index.html', 'project-2048.html', 'project-mobile.html', 'project-webperf.html']
+        src: ['*.html']
       }
     },
+
+    htmlmin: {
+      dist: {
+        options: {
+          removeComments: true,
+          collapseWhitespace: true
+        },
+        files: {
+          'dist/index.html': 'src/index.html',
+          'dist/contact.html': 'src/contact.html'
+        }
+      },
+      dev: {
+        files: {
+          'dist/index.html': 'src/index.html',
+          'dist/contact.html': 'src/contact.html'
+        }
+      },
+      multiple: {
+        files: [{
+          expand: true,
+          cwd: 'app/',
+          src: '**/*.html',
+          dest: 'dist/'
+        }]
+      }
+    },
+
     pagespeed: {
       options: {
         nokey: true,
@@ -45,7 +73,7 @@ module.exports = function(grunt) {
     },
     watch: {
       html: {
-        files: ['index.html', 'project-2048.html', 'project-mobile.html', 'project-webperf.html'],
+        files: ['*.html'],
         tasks: ['htmlhint']
       }
     }
