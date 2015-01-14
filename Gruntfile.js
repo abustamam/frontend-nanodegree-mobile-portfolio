@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 
     // Config for watch
     watch: {
-      html: {
+      build: {
         files: ['src/*.html', 'src/js/*.js', 'src/css/*.css'],
         tasks: ['build']
       }
