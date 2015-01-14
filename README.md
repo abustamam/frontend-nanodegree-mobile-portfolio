@@ -1,3 +1,13 @@
+## Acknowledgements
+
+Due to the nature of optimization, files needed to be minified. Editing a page then having to minify it each time I edited it really sucked, so I opted to learn how to automate mundane tasks. 
+
+This is why I used GruntJS. [This tutorial helped out](http://www.bymichaellancaster.com/blog/introduction-to-task-runner-gruntjs/).
+
+Of course, the docs and plugins at [GruntJS](http://www.gruntjs.com) also helped.
+
+
+
 ## Website Performance Optimization portfolio project
 
 Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).

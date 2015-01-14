@@ -10,6 +10,7 @@ module.exports = function(grunt) {
   require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
   // Grunt configuration
   grunt.initConfig({
+    // Config for htmlhint
     htmlhint: {
       build: {
         options: {
@@ -27,6 +28,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // Config for htmlmin
     htmlmin: {
       dist: {
         options: {
@@ -34,26 +36,63 @@ module.exports = function(grunt) {
           collapseWhitespace: true
         },
         files: {
-          'dist/index.html': 'src/index.html',
-          'dist/contact.html': 'src/contact.html'
+          'index.html': 'src/index.html'
         }
       },
-      dev: {
-        files: {
-          'dist/index.html': 'src/index.html',
-          'dist/contact.html': 'src/contact.html'
-        }
-      },
-      multiple: {
+
+      dynamic: {
+        options: {
+          removeComments: true,
+          collapseWhitespace: true
+        },
         files: [{
           expand: true,
-          cwd: 'app/',
-          src: '**/*.html',
-          dest: 'dist/'
+          cwd: 'src/',
+          src: ['**/*.html', '!index.html'],
+          dest: 'build'
         }]
       }
     },
 
+    // Config for uglifier
+    uglify: {
+      my_target: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: '**/*.js',
+          dest: 'build/',
+          ext: 'min.js'
+        }]
+      }
+    },
+
+    // Config for cssmin
+    cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: '**/*.img',
+          dest: 'build/',
+          ext: 'min.img'
+        }]
+      }
+    },
+
+    // Config for imagemin
+    imagemin: {
+      dynamic: {
+        files: [{
+          expand: true,
+          cwd: 'src/',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'build/'
+        }]
+      }
+    },
+
+    // Config for pagespeed
     pagespeed: {
       options: {
         nokey: true,
@@ -71,10 +110,12 @@ module.exports = function(grunt) {
         }
       }
     },
+
+    // Config for watch
     watch: {
       html: {
-        files: ['*.html'],
-        tasks: ['htmlhint']
+        files: ['src/*.html', 'src/js/*.js', 'src/css/*.css'],
+        tasks: ['build']
       }
     }
   });
@@ -97,4 +138,7 @@ module.exports = function(grunt) {
 
   // Register default tasks
   grunt.registerTask('default', ['psi-ngrok']);
+
+  // Register build tasks
+  grunt.registerTask('build', ['newer:htmlhint', 'newer:htmlmin', 'newer:uglify', 'newer:cssmin']);
 }
