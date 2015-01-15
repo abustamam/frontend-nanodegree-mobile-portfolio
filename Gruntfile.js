@@ -30,16 +30,6 @@ module.exports = function(grunt) {
 
     // Config for htmlmin
     htmlmin: {
-      dist: {
-        options: {
-          removeComments: true,
-          collapseWhitespace: true
-        },
-        files: {
-          'index.html': 'src/index.html'
-        }
-      },
-
       dynamic: {
         options: {
           removeComments: true,
@@ -48,7 +38,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['**/*.html', '!index.html'],
+          src: ['**/*.html'],
           dest: 'build'
         }]
       }
@@ -92,6 +82,14 @@ module.exports = function(grunt) {
       }
     },
 
+    // Config for gh-pages
+    'gh-pages': {
+      options: {
+        base: 'build',
+        message: 'Auto-generated commit'
+      },
+      src: ['**']
+    },
     // Config for pagespeed
     pagespeed: {
       options: {
@@ -141,4 +139,7 @@ module.exports = function(grunt) {
 
   // Register build tasks
   grunt.registerTask('build', ['newer:htmlhint', 'newer:htmlmin', 'newer:uglify', 'newer:cssmin']);
+
+  // Commit and push to gh-pages
+  grunt.registerTask('deploy', ['build', 'gh-pages'])
 }
