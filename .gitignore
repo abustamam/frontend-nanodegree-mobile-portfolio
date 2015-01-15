@@ -1,0 +1,8 @@
+.DS_Store
+.git
+.grunt
+
+node_modules
+package.json
+Gruntfile.js
+gulpfile.js
