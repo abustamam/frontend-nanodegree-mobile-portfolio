@@ -1,9 +1,11 @@
 var gulp        = require('gulp'),
     deploy      = require('gulp-gh-pages'),
-    uglify      = require('gulp-uglify'),
     htmlhint    = require('gulp-htmlhint'),
     csslint     = require('gulp-csslint'),
-    jshint      = require('gulp-jshint');
+    jshint      = require('gulp-jshint'),
+    htmlmin     = require('gulp-htmlmin'),
+    cssmin      = require('gulp-minify-css'),
+    uglify      = require('gulp-uglify');
 
 // Default task
 gulp.task('default', function(){
@@ -42,8 +44,31 @@ gulp.task('jsHint', function() {
     });
 });
 
-// Minify JS
-gulp.task('minifyJS', function () {
+// Minify HTML
+gulp.task('htmlmin', function() {
+  gulp.src('src/*.html')
+    .pipe(htmlmin({
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true,
+      removeRedundantAttributes: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true,
+      removeOptionalTags: true
+    }))
+    .pipe(gulp.dest('build'));
+});
+
+// Minify CSS
+gulp.task('cssmin', function() {
+  gulp.src('src/css/*.css')
+    .pipe(cssmin({}))
+    .pipe(gulp.dest('build/css'));
+})
+
+// Uglify JS
+gulp.task('uglify', function () {
   gulp.src('src/js/*.js')
     .pipe(uglify())
     .pipe(gulp.dest('build/js'));
@@ -59,4 +84,8 @@ gulp.task('deploy', function () {
 
 gulp.task('lint', function() {
   gulp.run('htmlLint', 'cssLint', 'jsHint');
+});
+
+gulp.task('minify', function() {
+  gulp.run('htmlmin', 'cssmin', 'uglify');
 })
