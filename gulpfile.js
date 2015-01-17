@@ -5,7 +5,9 @@ var gulp        = require('gulp'),
     jshint      = require('gulp-jshint'),
     htmlmin     = require('gulp-htmlmin'),
     cssmin      = require('gulp-minify-css'),
-    uglify      = require('gulp-uglify');
+    uglify      = require('gulp-uglify'),
+    psi         = require('psi')
+    site        = 'http://7bcd2bcc.ngrok.com/';
 
 // Default task
 gulp.task('default', function(){
@@ -80,11 +82,45 @@ gulp.task('deploy', function () {
     .pipe(deploy());
 });
 
+// PSI for mobile
+
+gulp.task('mobile', function () {
+    return psi(site, {
+        // key: key
+        nokey: 'true',
+        strategy: 'mobile',
+    }, function (err, data) {
+        console.log(data.score);
+        console.log(data.pageStats);
+    });
+});
+
+// PSI for desktop
+
+gulp.task('desktop', function () {
+    return psi(site, {
+        nokey: 'true',
+        // key: key,
+        strategy: 'desktop',
+    }, function (err, data) {
+        console.log(data.score);
+        console.log(data.pageStats);
+    });
+});
+
+// PSI task
+
+gulp.task('psi', function(){
+  gulp.run('mobile','desktop');
+})
+
 // Lint all
 
 gulp.task('lint', function() {
   gulp.run('htmlLint', 'cssLint', 'jsHint');
 });
+
+// Minify all
 
 gulp.task('minify', function() {
   gulp.run('htmlmin', 'cssmin', 'uglify');
