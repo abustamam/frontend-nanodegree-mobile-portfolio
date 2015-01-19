@@ -83,7 +83,7 @@ gulp.task('imagemin', function () {
   var formats = ['src/img/**/*.png', 'src/img/**/*.jpg', 'src/img/**/*.svg'];
   return gulp.src(formats)
       .pipe(imagemin({
-        optimizationLevel: 0, 
+        optimizationLevel: 3, 
         progressive: true, 
         interlaced: true,
         use: [pngquant()]
