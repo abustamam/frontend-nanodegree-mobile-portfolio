@@ -6,7 +6,9 @@ var gulp        = require('gulp'),
     htmlmin     = require('gulp-htmlmin'),
     cssmin      = require('gulp-minify-css'),
     uglify      = require('gulp-uglify'),
-    psi         = require('psi')
+    psi         = require('psi'),
+    imagemin    = require('gulp-imagemin'),
+    pngquant    = require('imagemin-pngquant'),
     site        = 'http://7bcd2bcc.ngrok.com/';
 
 // Default task
@@ -76,6 +78,19 @@ gulp.task('uglify', function () {
     .pipe(gulp.dest('build/js'));
 });
 
+// Image optimizer
+gulp.task('imagemin', function () {
+  var formats = ['src/img/**/*.png'];
+  return gulp.src(formats)
+      .pipe(imagemin({
+        optimizationLevel: 0, 
+        progressive: true, 
+        interlaced: true,
+        use: [pngquant()]
+      }))
+      .pipe(gulp.dest('build/img'));
+});
+
 // Push build to gh-pages
 gulp.task('deploy', function () {
   return gulp.src("./build/**/*")
@@ -83,7 +98,6 @@ gulp.task('deploy', function () {
 });
 
 // PSI for mobile
-
 gulp.task('mobile', function () {
     return psi(site, {
         // key: key
@@ -96,7 +110,6 @@ gulp.task('mobile', function () {
 });
 
 // PSI for desktop
-
 gulp.task('desktop', function () {
     return psi(site, {
         nokey: 'true',
@@ -109,19 +122,16 @@ gulp.task('desktop', function () {
 });
 
 // PSI task
-
 gulp.task('psi', function(){
   gulp.run('mobile','desktop');
 })
 
 // Lint all
-
 gulp.task('lint', function() {
   gulp.run('htmlLint', 'cssLint', 'jsHint');
 });
 
 // Minify all
-
 gulp.task('minify', function() {
   gulp.run('htmlmin', 'cssmin', 'uglify');
 })
