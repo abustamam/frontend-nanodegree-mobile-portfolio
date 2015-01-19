@@ -1,31 +1,38 @@
-var gulp        = require('gulp'),
-    deploy      = require('gulp-gh-pages'),
-    htmlhint    = require('gulp-htmlhint'),
-    csslint     = require('gulp-csslint'),
-    jshint      = require('gulp-jshint'),
-    htmlmin     = require('gulp-htmlmin'),
-    cssmin      = require('gulp-minify-css'),
-    uglify      = require('gulp-uglify'),
-    psi         = require('psi'),
-    imagemin    = require('gulp-imagemin'),
-    pngquant    = require('imagemin-pngquant'),
-    site        = 'http://7bcd2bcc.ngrok.com/';
+var gulp         = require('gulp'),
+    deploy       = require('gulp-gh-pages'),
+    htmlhint     = require('gulp-htmlhint'),
+    csslint      = require('gulp-csslint'),
+    jshint       = require('gulp-jshint'),
+    htmlmin      = require('gulp-htmlmin'),
+    cssmin       = require('gulp-minify-css'),
+    uglify       = require('gulp-uglify'),
+    psi          = require('psi'),
+    imagemin     = require('gulp-imagemin'),
+    autoprefixer = require('gulp-autoprefixer'),
+    rename       = require('gulp-rename'),
+    notify       = require('gulp-notify'),
+    cache        = require('gulp-cache'),
+    del          = require('del'),
+    site         = 'http://7bcd2bcc.ngrok.com/';
+
+
+    
 
 // Default task
-gulp.task('default', function(){
-
+gulp.task('default', ['clean'], function() {
+  gulp.start('htmlmin', 'cssmin', 'uglify');
 });
 
 // Lint HTML
 gulp.task('htmlLint', function () {
-  gulp.src('src/*.html')
+  return gulp.src('src/*.html')
     .pipe(htmlhint());
 });
 
 // Lint CSS
 
 gulp.task('cssLint', function () {
-  gulp.src(['src/css/*.css', '!src/css/bootstrap-grid.css'])
+  return gulp.src(['src/css/*.css', '!src/css/bootstrap-grid.css'])
     .pipe(csslint({
       'unique-headings': false,
       'important': false,
@@ -50,7 +57,7 @@ gulp.task('jsHint', function() {
 
 // Minify HTML
 gulp.task('htmlmin', function() {
-  gulp.src('src/*.html')
+  return gulp.src('src/*.html')
     .pipe(htmlmin({
       removeComments: true,
       collapseWhitespace: true,
@@ -66,33 +73,40 @@ gulp.task('htmlmin', function() {
 
 // Minify CSS
 gulp.task('cssmin', function() {
-  gulp.src('src/css/*.css')
-    .pipe(cssmin({}))
-    .pipe(gulp.dest('build/css'));
+  return gulp.src('src/css/*.css')
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(cssmin())
+    .pipe(gulp.dest('build/css'))
+    .pipe(notify({ message: 'CSS minification complete' }));
 })
 
 // Uglify JS
 gulp.task('uglify', function () {
-  gulp.src('src/js/*.js')
+  return gulp.src('src/js/*.js')
+    .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('build/js'));
+    .pipe(gulp.dest('build/js'))
+    .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 // Image optimizer
 gulp.task('imagemin', function () {
   var formats = ['src/img/**/*.png', 'src/img/**/*.jpg', 'src/img/**/*.svg'];
   return gulp.src(formats)
-      .pipe(imagemin({
-        optimizationLevel: 3, 
-        progressive: true, 
-        interlaced: true,
-        use: [pngquant()]
-      }))
-      .pipe(gulp.dest('build/img'));
+      .pipe(cache(imagemin({
+        optimizationLevel: 5, progressive: true, interlaced: true 
+      })))
+      .pipe(gulp.dest('build/img'))
+      .pipe(notify({ message: 'Images task complete' }));
+});
+
+gulp.task('clean', function(cb) {
+  del(['build'], cb)
 });
 
 // Push build to gh-pages
-gulp.task('deploy', function () {
+gulp.task('build', function () {
   return gulp.src("./build/**/*")
     .pipe(deploy());
 });
@@ -121,17 +135,38 @@ gulp.task('desktop', function () {
     });
 });
 
+// Watch task
+gulp.task('watch', function() {
+  // Watch .html files
+  gulp.watch('src/**/*.html', ['htmlmin']);
+
+  // Watch .css files
+  gulp.watch('src/css/**.*.css', ['cssmin']);
+
+  // Watch .js files
+  gulp.watch('src/js/**/*.js', ['uglify']);
+
+  // Watch image files
+  gulp.watch('src/img/**/*', ['imagemin']);
+
+});
+
 // PSI task
-gulp.task('psi', function(){
-  gulp.run('mobile','desktop');
+gulp.task('psi', ['minify'], function(){
+  gulp.start('mobile','desktop');
 })
 
 // Lint all
 gulp.task('lint', function() {
-  gulp.run('htmlLint', 'cssLint', 'jsHint');
+  gulp.start('htmlLint', 'cssLint', 'jsHint');
 });
 
 // Minify all
-gulp.task('minify', function() {
-  gulp.run('htmlmin', 'cssmin', 'uglify');
+gulp.task('minify', ['clean'], function() {
+  gulp.start('htmlmin', 'cssmin', 'uglify', 'imagemin');
+});
+
+// Lint, minify, and deploy to GH pages
+gulp.task('deploy', ['lint', 'minify'], function() {
+  gulp.start('build');
 })

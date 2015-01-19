@@ -2,10 +2,9 @@
 
 Due to the nature of optimization, files needed to be minified. Editing a page then having to minify it each time I edited it really sucked, so I opted to learn how to automate mundane tasks. 
 
-This is why I used GruntJS. [This tutorial helped out](http://www.bymichaellancaster.com/blog/introduction-to-task-runner-gruntjs/).
+This is why I used Gulp.js. [This tutorial helped out](http://markgoodyear.com/2014/01/getting-started-with-gulp/). So did [Michael Wales](http://michaelwales.com/articles/getting-started-with-gulpjs/)! 
 
-Of course, the docs and plugins at [GruntJS](http://www.gruntjs.com) also helped.
-
+Of course, the docs and plugins at [GulpJS](http://www.gulpjs.com) also helped.
 
 
 ## Website Performance Optimization portfolio project
