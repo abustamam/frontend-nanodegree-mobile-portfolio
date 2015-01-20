@@ -8,23 +8,15 @@ var gulp         = require('gulp'),
     uglify       = require('gulp-uglify'),
     psi          = require('psi'),
     imagemin     = require('gulp-imagemin'),
-    autoprefixer = require('gulp-autoprefixer'),
     rename       = require('gulp-rename'),
     notify       = require('gulp-notify'),
     cache        = require('gulp-cache'),
     del          = require('del'),
-    webp         = require('gulp-webp'),
-    uncss        = require('gulp-uncss'),
-    inline       = require('gulp-inline'),
     critical     = require('critical'),
-    sequence     = require('run-sequence'),
     jpegoptim    = require('imagemin-jpegoptim'),
     pngcrush     = require('imagemin-pngcrush'),
     site         = 'http://abustamam.github.io/mobile-portfolio';
-
-
-    
-
+  
 // Default task
 gulp.task('default', ['clean'], function() {
   gulp.start('htmlmin', 'cssmin', 'uglify', 'imagemin');
@@ -87,7 +79,6 @@ gulp.task('htmlmin', ['clean'], function() {
 // Minify CSS
 gulp.task('cssmin', ['clean'], function() {
   return gulp.src('src/css/*.css')
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(rename({suffix: '.min'}))
     .pipe(cssmin())
     .pipe(gulp.dest('build/css'))

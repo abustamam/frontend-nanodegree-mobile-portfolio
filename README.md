@@ -43,6 +43,27 @@ This way, the new width is calculated first, then each pizza container is update
 
 This change can be viewed from lines 444 to 454.
 
+## Explanation of gulp tasks
+
+deploy -- deploys to gh-pages branch
+htmlhint -- 'lints' html
+csslint -- 'lints' CSS
+jshint -- 'lints' JS
+htmlmin -- minifies HTML (strip whitespace, remove comments, etc)
+cssmin -- minifies CSS
+uglify -- uglifies JS
+psi -- calculates mobile and desktop PSI
+imagemin -- minifies images
+rename -- module used to add .min suffix
+notify -- module used for command line notifications
+cache -- stores image data in cache to speed up additional image minification
+del -- deletes build folder to start fresh
+critical -- module used to inline critical CSS into index.html (I did this manually for other pages as I did not want to spend time learning how to do this with multiple pages)
+jpegoptim -- jpeg optimizer
+pngcrush -- png optimizer
+
+I wrote my own gulp tasks as well, which are described in the gulpfile.
+
 ## Acknowledgements
 
 Due to the nature of optimization, files needed to be minified. Editing a page then having to minify it each time I edited it really sucked, so I opted to learn how to automate mundane tasks. 
