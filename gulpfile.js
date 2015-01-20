@@ -57,10 +57,6 @@ gulp.task('jsHint', function() {
 // Minify HTML
 gulp.task('htmlmin', ['clean'], function() {
   return gulp.src('src/*.html')
-    .pipe(inline({
-      base: 'src/',
-      css: cssmin()
-    }))
     .pipe(gulp.dest('build'))
     .pipe(htmlmin({
       removeComments: true,
