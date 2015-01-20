@@ -13,6 +13,9 @@ var gulp         = require('gulp'),
     notify       = require('gulp-notify'),
     cache        = require('gulp-cache'),
     del          = require('del'),
+    webp         = require('gulp-webp'),
+    uncss        = require('gulp-uncss'),
+    inline       = require('gulp-inline'),
     site         = 'http://7bcd2bcc.ngrok.com/';
 
 
@@ -58,6 +61,11 @@ gulp.task('jsHint', function() {
 // Minify HTML
 gulp.task('htmlmin', function() {
   return gulp.src('src/*.html')
+    .pipe(inline({
+      base: 'src/',
+      css: cssmin()
+    }))
+    .pipe(gulp.dest('build'))
     .pipe(htmlmin({
       removeComments: true,
       collapseWhitespace: true,
@@ -68,7 +76,8 @@ gulp.task('htmlmin', function() {
       minifyURLs: true,
       removeOptionalTags: true
     }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build'))
+    .pipe(notify({ message: 'HTML minification complete' }));
 });
 
 // Minify CSS
@@ -87,7 +96,7 @@ gulp.task('uglify', function () {
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('build/js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
+    .pipe(notify({ message: 'JS uglification complete' }));
 });
 
 // Image optimizer
@@ -97,8 +106,9 @@ gulp.task('imagemin', function () {
       .pipe(cache(imagemin({
         optimizationLevel: 5, progressive: true, interlaced: true 
       })))
+      .pipe(webp())
       .pipe(gulp.dest('build/img'))
-      .pipe(notify({ message: 'Images task complete' }));
+      .pipe(notify({ message: 'Image minification complete' }));
 });
 
 gulp.task('clean', function(cb) {
