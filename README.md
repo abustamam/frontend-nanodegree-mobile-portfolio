@@ -6,6 +6,8 @@ This is why I used Gulp.js. [This tutorial helped out](http://markgoodyear.com/2
 
 Of course, the docs and plugins at [GulpJS](http://www.gulpjs.com) also helped.
 
+For inlining critical CSS, I used [this](http://jonassebastianohlsson.com/criticalpathcssgenerator/). 
+
 
 ## Website Performance Optimization portfolio project
 

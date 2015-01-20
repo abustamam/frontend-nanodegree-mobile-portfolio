@@ -1,8 +1,103 @@
 <!DOCTYPE HTML>
 <html>
-<head>  
-  <link rel="stylesheet" href="css/style.min.css">
-  <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
+      background: black;
+    }
+
+    input {
+      background: grey;
+      font-size: 18px;
+    }
+
+    form {
+      display: inline-block;
+    }
+
+    .centered {
+      text-align: center;
+    }
+
+     .container {
+      background-color: rgba(240, 60, 60, 0.8);
+    }
+
+    img {
+      vertical-align: middle;
+    }
+    .img-responsive {
+      display: block;
+      width: 100% \9;
+      max-width: 100%;
+      height: auto;
+    }
+    .container {
+      margin-right: auto;
+      margin-left: auto;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    @media (min-width: 768px) {
+      .container {
+        width: 750px;
+      }
+    }
+    @media (min-width: 992px) {
+      .container {
+        width: 970px;
+      }
+    }
+    @media (min-width: 1200px) {
+      .container {
+        width: 1170px;
+      }
+    }
+    .row {
+      margin-left: -15px;
+      margin-right: -15px;
+    } .col-md-4, .col-md-6, .col-md-8, .col-md-12{
+      position: relative;
+      min-height: 1px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    @media (min-width: 992px) { .col-md-4, .col-md-6, .col-md-8, .col-md-12 {
+        float: left;
+      }
+      .col-md-12 {
+        width: 100%;
+      }
+      .col-md-8 {
+        width: 66.66666667%;
+      }
+      .col-md-6 {
+        width: 50%;
+      }
+      .col-md-4 {
+        width: 33.33333333%;
+      }
+      .col-md-push-3 {
+        left: 25%;
+      }
+      .col-md-push-2 {
+        left: 16.66666667%;
+      }
+    }
+    .container:before,
+    .container:after,
+    .row:before,
+    .row:after {
+      content: " ";
+      display: table;
+    }
+    .container:after,
+    .row:after {
+      clear: both;
+    }
+  </style>
 </head>
 
 <body>
@@ -36,7 +131,7 @@
     </div>
     <div id="callToAction" class="row">
       <div class="col-md-4">
-        <img src="images/pizzeria.jpg" class="img-responsive"> <!-- Image credit to: http://commons.wikimedia.org/wiki/File:HK_TST_night_%E5%98%89%E8%98%AD%E9%81%93_Granville_Road_restaurant_Paisano's_Pizzeria_pizza_Dec-2013.JPG -->
+        <img src="img/pizzeria.webp" class="img-responsive"> <!-- Image credit to: http://commons.wikimedia.org/wiki/File:HK_TST_night_%E5%98%89%E8%98%AD%E9%81%93_Granville_Road_restaurant_Paisano's_Pizzeria_pizza_Dec-2013.webp -->
       </div>
       <div class="col-md-8">
         <div class="row">
@@ -104,7 +199,7 @@
         <div id="randomPizzas" class="row">
           <div id="pizza0" class="randomPizzaContainer" style="width:33.33%;">
             <div class="col-md-6">
-              <img src="images/pizza.png" class="img-responsive">
+              <img src="img/pizza.webp" class="img-responsive">
             </div>
             <div class="col-md-6">
               <h4>The Udacity Special</h4>
@@ -121,7 +216,7 @@
           </div>
           <div id="pizza1" class="randomPizzaContainer" style="width:33.33%;">
             <div class="col-md-6">
-              <img src="images/pizza.png" class="img-responsive">
+              <img src="img/pizza.webp" class="img-responsive">
             </div>
             <div class="col-md-6">
               <h4>The Cameron Special</h4>
@@ -137,7 +232,9 @@
     </div>
     <div id="footer" class="col-md-12">Thanks for visiting! &copy; 2014 Udacity</div>
   </div>
-  <script type="text/javascript" src="js/main.min.js"></script>
+  <script async type="text/javascript" src="js/main.min.js"></script>
+  <link rel="stylesheet" href="css/style.min.css">
+  <link rel="stylesheet" href="css/bootstrap-grid.min.css">
 </body>
 
 </html>
