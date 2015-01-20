@@ -43,5 +43,9 @@
     "ngrok": "^0.1.94",
     "psi": "^1.0.2",
     "run-sequence": "^1.0.2"
+  },
+  "dependencies": {
+    "imagemin-jpegoptim": "^4.0.0",
+    "imagemin-pngcrush": "^4.0.0"
   }
 }

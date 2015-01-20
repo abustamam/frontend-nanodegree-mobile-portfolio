@@ -6,7 +6,9 @@ This is why I used Gulp.js. [This tutorial helped out](http://markgoodyear.com/2
 
 Of course, the docs and plugins at [GulpJS](http://www.gulpjs.com) also helped.
 
-For inlining critical CSS, I used [this](http://jonassebastianohlsson.com/criticalpathcssgenerator/). 
+For inlining critical CSS, I used [this](http://jonassebastianohlsson.com/criticalpathcssgenerator/).
+
+For info on requestAnimatinFrame, I used [this](http://www.html5rocks.com/en/tutorials/speed/animations/). 
 
 
 ## Website Performance Optimization portfolio project

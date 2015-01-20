@@ -18,7 +18,9 @@ var gulp         = require('gulp'),
     inline       = require('gulp-inline'),
     critical     = require('critical'),
     sequence     = require('run-sequence'),
-    site         = 'http://7bcd2bcc.ngrok.com/';
+    jpegoptim    = require('imagemin-jpegoptim'),
+    pngcrush     = require('imagemin-pngcrush'),
+    site         = 'http://abustamam.github.io/mobile-portfolio';
 
 
     
@@ -106,21 +108,17 @@ gulp.task('imagemin', ['clean'], function () {
   var formats = ['src/img/**/*.png', 'src/img/**/*.jpg', 'src/img/**/*.svg'];
   return gulp.src(formats)
       .pipe(cache(imagemin({
-        optimizationLevel: 5, progressive: true, interlaced: true 
+        optimizationLevel: 7, 
+        progressive: false, 
+        interlaced: true,
+        use: [jpegoptim(), pngcrush()]
       })))
-      .pipe(webp())
       .pipe(gulp.dest('build/img'))
       .pipe(notify({ message: 'Image minification complete' }));
 });
 
 gulp.task('clean', function(cb) {
   del(['build'], cb)
-});
-
-// Push build to gh-pages
-gulp.task('build', function () {
-  return gulp.src("./build/**/*")
-    .pipe(deploy());
 });
 
 // PSI for mobile
@@ -205,6 +203,11 @@ gulp.task('critical', ['copystyles'], function (cb) {
 });
 
 // Minify, and deploy to GH pages
+gulp.task('build', function () {
+  return gulp.src("./build/**/*")
+    .pipe(deploy());
+});
+
 gulp.task('deploy', ['critical'], function() {
   gulp.start('build');
 });
