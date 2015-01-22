@@ -494,10 +494,12 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // Move items outside of function as it is constant
 var items = [],
     scrollPos = 0,
-    rAF = false;
+    rAF = false,
+    phase = 0,
+    trans;
 
 function onScroll () {
-  scrollPos = window.scrollY;
+  scrollPos = window.scrollY/1250;
   requestAnim();
 }
 
@@ -513,13 +515,17 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  if (items.length === 0) {
-    items = document.getElementsByClassName('mover');
-  }
-
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((scrollPos/1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+    phase = Math.sin((scrollPos) + (i % 5));
+    trans = 100 * phase + 'px';
+    
+    //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+
+    items[i].style.webkitTransform = 'translate3d(' + trans + ', 0, 0)';
+    items[i].style.MozTransform = 'translate3d(' +  trans + ', 0, 0)';
+    items[i].style.msTransform = 'translate3d(' + trans + ', 0, 0)';
+    items[i].style.OTransform = 'translate3d(' + trans + ', 0, 0)';
+    items[i].style.transform = 'translate3d(' + trans + ', 0, 0)';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -541,15 +547,17 @@ window.addEventListener('scroll', onScroll, false);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < 40; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "img/pizza.png";
     elem.style.height = "100px";
-    elem.style.width = "73.333px";
-    elem.basicLeft = (i % cols) * s;
+    elem.style.width = "100px";
+    elem.style.left = (i % cols) * s + 'px';
+    //elem.style.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
+  items = document.getElementsByClassName('mover');
   window.requestAnimationFrame(updatePositions);
 });
