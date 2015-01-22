@@ -7,14 +7,12 @@ var gulp         = require('gulp'),
     cssmin       = require('gulp-minify-css'),
     uglify       = require('gulp-uglify'),
     psi          = require('psi'),
-    imagemin     = require('gulp-imagemin'),
     rename       = require('gulp-rename'),
     notify       = require('gulp-notify'),
     cache        = require('gulp-cache'),
     del          = require('del'),
     critical     = require('critical'),
-    jpegoptim    = require('imagemin-jpegoptim'),
-    pngcrush     = require('imagemin-pngcrush'),
+    webp         = require('gulp-webp'),
     site         = 'http://abustamam.github.io/mobile-portfolio';
   
 // Default task
@@ -94,12 +92,7 @@ gulp.task('uglify', ['clean'], function () {
 gulp.task('imagemin', ['clean'], function () {
   var formats = ['src/img/**/*.png', 'src/img/**/*.jpg', 'src/img/**/*.svg'];
   return gulp.src(formats)
-      .pipe(cache(imagemin({
-        optimizationLevel: 7, 
-        progressive: false, 
-        interlaced: true,
-        use: [jpegoptim(), pngcrush()]
-      })))
+      .pipe(webp())
       .pipe(gulp.dest('build/img'))
       .pipe(notify({ message: 'Image minification complete' }));
 });
