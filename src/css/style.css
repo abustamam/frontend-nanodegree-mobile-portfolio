@@ -15,7 +15,12 @@ a:hover, a:active { color: #c00;}
 
 b, strong { font-weight: bold; }
 pre, code { font-family: monospace, monospace; font-size: 1em; }
-ul, ol { margin: 1em 0; padding: 0 0 0 20px; }
+ul, ol { 
+  margin: 1em 0; 
+  padding: 0 0 0 20px; 
+  display: flex;
+  flex-direction: column;
+}
 img { border: 0; max-width: 100%; }
 
 body { background: #fff; }
@@ -36,6 +41,7 @@ header p span { font-size: 0.8em; font-weight: normal;}
 li img { 
   float:left; 
   padding-right: 1em; 
+  width: 100px;
 }
 li p { font-size: 0.9em; font-style: italic; }
 
